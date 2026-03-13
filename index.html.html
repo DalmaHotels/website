@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Dalma Hotel — Bububu, Zanzibar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ocean:   #1a3a4a;
+            --ocean-mid: #245068;
+            --sand:    #e8dcc8;
+            --sand-light: #f5f0e8;
+            --coral:   #c9845a;
+            --coral-light: #dfa080;
+            --white:   #fdfcfa;
+            --text:    #2c2c2c;
+            --text-light: #6b6560;
+            --border:  #ddd5c3;
+            --radius:  6px;
+            --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5vw;
+            height: 68px;
+            background: rgba(26,58,74,0.97);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--sand);
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .nav-logo span { color: var(--coral-light); font-style: italic; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+        .nav-links li a {
+            display: block;
+            padding: 0 14px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(232,220,200,0.7);
+            text-decoration: none;
+            transition: color var(--transition);
+            line-height: 68px;
+        }
+        .nav-links li a:hover,
+        .nav-links li a.active { color: var(--sand); }
+        .nav-links li a.active { border-bottom: 2px solid var(--coral); }
+
+        .nav-book {
+            background: var(--coral);
+            color: var(--white) !important;
+            padding: 9px 22px !important;
+            border-radius: 3px;
+            line-height: normal !important;
+            margin-left: 10px;
+            transition: background var(--transition) !important;
+        }
+        .nav-book:hover { background: var(--coral-light) !important; color: var(--white) !important; }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--sand);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Mobile nav */
+        @media (max-width: 820px) {
+            .nav-links { 
+                display: none; 
+                flex-direction: column;
+                position: absolute;
+                top: 68px; left: 0; right: 0;
+                background: var(--ocean);
+                padding: 10px 0 20px;
+                border-top: 1px solid rgba(255,255,255,0.08);
+            }
+            .nav-links.open { display: flex; }
+            .nav-links li a { 
+                line-height: 1; 
+                padding: 14px 5vw; 
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+            .nav-links li a.active { border-bottom: 1px solid rgba(255,255,255,0.05); border-left: 3px solid var(--coral); }
+            .nav-book { line-height: 1 !important; margin: 10px 5vw 0 !important; display: inline-block; }
+            .hamburger { display: flex; }
+        }
+
+        /* ── PAGES ── */
+        .page { display: none; padding-top: 68px; }
+        .page.active { display: block; }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: calc(100vh - 68px);
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--ocean);
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image: url('hotel-exterior.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.45;
+            transform: scale(1.04);
+            animation: slowZoom 18s ease-in-out infinite alternate;
+        }
+        @keyframes slowZoom {
+            from { transform: scale(1.0); }
+            to   { transform: scale(1.06); }
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, rgba(26,58,74,0.55) 0%, rgba(10,25,35,0.72) 100%);
+        }
+        .hero-content {
+            position: relative;
+            text-align: center;
+            padding: 0 24px;
+            animation: fadeUp 1s ease both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--coral-light);
+            margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 7vw, 5.2rem);
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero h1 em { font-style: italic; color: var(--sand); }
+        .hero-sub {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(232,220,200,0.82);
+            letter-spacing: 0.04em;
+            margin-bottom: 40px;
+        }
+        .hero-cta {
+            display: inline-flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-primary {
+            background: var(--coral);
+            color: var(--white);
+            padding: 13px 32px;
+            border: none;
+            border-radius: 3px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background var(--transition), transform var(--transition);
+        }
+        .btn-primary:hover { background: var(--coral-light); transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            color: var(--sand);
+            padding: 13px 32px;
+            border: 1px solid rgba(232,220,200,0.5);
+            border-radius: 3px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .btn-outline:hover { border-color: var(--sand); background: rgba(232,220,200,0.1); }
+
+        .hero-stats {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            background: rgba(10,25,35,0.7);
+            backdrop-filter: blur(6px);
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .hero-stat {
+            padding: 18px 40px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.07);
+        }
+        .hero-stat:last-child { border-right: none; }
+        .hero-stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--coral-light);
+        }
+        .hero-stat-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(232,220,200,0.6);
+        }
+        @media (max-width: 600px) {
+            .hero-stat { padding: 14px 18px; }
+            .hero-stat-num { font-size: 1.2rem; }
+        }
+
+        /* ── SECTION WRAPPER ── */
+        .section-wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 90px 5vw;
+        }
+        .section-header {
+            margin-bottom: 52px;
+        }
+        .section-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            color: var(--ocean);
+            line-height: 1.2;
+        }
+        .section-header p {
+            margin-top: 16px;
+            font-size: 1rem;
+            color: var(--text-light);
+            max-width: 560px;
+        }
+        .divider {
+            width: 48px; height: 2px;
+            background: var(--coral);
+            margin: 20px 0;
+        }
+
+        /* ── HOME — WELCOME STRIP ── */
+        .welcome-strip {
+            background: var(--ocean);
+            padding: 72px 5vw;
+        }
+        .welcome-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .welcome-text .section-header { margin-bottom: 24px; }
+        .welcome-text .section-header h2 { color: var(--sand); }
+        .welcome-text p { color: rgba(232,220,200,0.75); font-size: 1.02rem; line-height: 1.8; }
+        .welcome-img {
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .welcome-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            min-height: 360px;
+            max-height: 420px;
+        }
+        .welcome-badge {
+            position: absolute;
+            bottom: -20px; left: -20px;
+            background: var(--coral);
+            color: var(--white);
+            padding: 22px 28px;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .welcome-badge .big {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+        .welcome-badge .small {
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0.88;
+        }
+        @media (max-width: 780px) {
+            .welcome-inner { grid-template-columns: 1fr; gap: 40px; }
+            .welcome-badge { display: none; }
+        }
+
+        /* ── HOME — HIGHLIGHT CARDS ── */
+        .highlights {
+            background: var(--sand-light);
+            padding: 80px 5vw;
+        }
+        .highlights-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .h-card {
+            background: var(--white);
+            border-radius: 4px;
+            padding: 38px 30px;
+            border: 1px solid var(--border);
+            transition: box-shadow var(--transition), transform var(--transition);
+        }
+        .h-card:hover { box-shadow: 0 12px 40px rgba(26,58,74,0.1); transform: translateY(-4px); }
+        .h-icon {
+            width: 48px; height: 48px;
+            background: var(--ocean);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 22px;
+        }
+        .h-icon svg { width: 22px; height: 22px; fill: var(--sand); }
+        .h-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--ocean);
+            margin-bottom: 10px;
+        }
+        .h-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.7; }
+        @media (max-width: 780px) {
+            .highlights-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── GALLERY STRIP ── */
+        .gallery-strip {
+            padding: 80px 5vw;
+            background: var(--white);
+        }
+        .gallery-strip-inner { max-width: 1180px; margin: 0 auto; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 220px 220px;
+            gap: 12px;
+        }
+        .gallery-grid .g-item { overflow: hidden; border-radius: 4px; cursor: pointer; position: relative; }
+        .gallery-grid .g-item:first-child { grid-column: 1 / 3; grid-row: 1 / 3; }
+        .gallery-grid .g-item:nth-child(2) { grid-column: 3; grid-row: 1; }
+        .gallery-grid .g-item:nth-child(3) { grid-column: 4; grid-row: 1; }
+        .gallery-grid .g-item:nth-child(4) { grid-column: 3; grid-row: 2; }
+        .gallery-grid .g-item:nth-child(5) { grid-column: 4; grid-row: 2; }
+        .gallery-grid .g-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+        .gallery-grid .g-item:hover img { transform: scale(1.06); }
+        .g-overlay {
+            position: absolute; inset: 0;
+            background: rgba(26,58,74,0);
+            transition: background var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .g-overlay span {
+            color: white; font-size: 0.75rem; letter-spacing: 0.15em;
+            text-transform: uppercase; opacity: 0; transition: opacity var(--transition);
+        }
+        .g-item:hover .g-overlay { background: rgba(26,58,74,0.35); }
+        .g-item:hover .g-overlay span { opacity: 1; }
+        @media (max-width: 700px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+            .gallery-grid .g-item:first-child { grid-column: 1 / 3; grid-row: auto; height: 220px; }
+            .gallery-grid .g-item { height: 160px; grid-column: auto !important; grid-row: auto !important; }
+        }
+
+        /* ── ROOMS PAGE ── */
+        .rooms-intro { background: var(--ocean); padding: 80px 5vw; }
+        .rooms-intro-inner { max-width: 1180px; margin: 0 auto; }
+        .rooms-intro .section-header h2 { color: var(--sand); }
+        .rooms-intro .section-header p { color: rgba(232,220,200,0.75); max-width: 640px; }
+
+        .rooms-list { padding: 80px 5vw; background: var(--sand-light); }
+        .rooms-list-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+        .room-card {
+            background: var(--white);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: box-shadow var(--transition), transform var(--transition);
+        }
+        .room-card:hover { box-shadow: 0 16px 48px rgba(26,58,74,0.12); transform: translateY(-5px); }
+        .room-img { height: 220px; overflow: hidden; }
+        .room-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .room-card:hover .room-img img { transform: scale(1.06); }
+        .room-body { padding: 28px 26px; }
+        .room-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem; font-weight: 400;
+            color: var(--ocean); margin-bottom: 10px;
+        }
+        .room-body p { font-size: 0.88rem; color: var(--text-light); line-height: 1.7; margin-bottom: 20px; }
+        .room-price {
+            display: flex; align-items: baseline; gap: 6px;
+            margin-bottom: 20px;
+        }
+        .room-price .amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem; color: var(--coral);
+        }
+        .room-price .per { font-size: 0.78rem; color: var(--text-light); letter-spacing: 0.06em; }
+        .btn-room {
+            width: 100%; padding: 11px;
+            background: var(--ocean); color: var(--sand);
+            border: none; border-radius: 3px; font-family: 'Jost', sans-serif;
+            font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+            cursor: pointer; transition: background var(--transition);
+        }
+        .btn-room:hover { background: var(--ocean-mid); }
+
+        .checkin-bar {
+            max-width: 1180px; margin: 0 auto 60px;
+            display: flex; gap: 40px;
+            padding: 30px 36px;
+            background: var(--ocean);
+            border-radius: 4px;
+            align-items: center;
+        }
+        .checkin-item { flex: 1; }
+        .checkin-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral-light); margin-bottom: 6px; }
+        .checkin-value { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--sand); }
+        .checkin-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.15); }
+        @media (max-width: 600px) {
+            .rooms-list-inner { grid-template-columns: 1fr; }
+            .checkin-bar { flex-direction: column; gap: 20px; }
+            .checkin-divider { display: none; }
+        }
+
+        /* ── AMENITIES PAGE ── */
+        .amenities-hero {
+            background: var(--ocean);
+            padding: 80px 5vw 0;
+        }
+        .amenities-hero-inner { max-width: 1180px; margin: 0 auto; }
+        .amenities-hero .section-header h2 { color: var(--sand); }
+        .amenities-hero .section-header p { color: rgba(232,220,200,0.75); }
+
+        .amenities-grid-wrap { padding: 70px 5vw; background: var(--sand-light); }
+        .amenities-grid-inner { max-width: 1180px; margin: 0 auto; }
+        .am-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+        .am-item {
+            background: var(--white);
+            padding: 30px 26px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            display: flex; align-items: flex-start; gap: 18px;
+            transition: box-shadow var(--transition);
+        }
+        .am-item:hover { box-shadow: 0 8px 32px rgba(26,58,74,0.08); }
+        .am-dot {
+            width: 10px; height: 10px; min-width: 10px;
+            background: var(--coral); border-radius: 50%;
+            margin-top: 8px;
+        }
+        .am-item h4 { font-weight: 500; font-size: 0.95rem; color: var(--ocean); margin-bottom: 4px; }
+        .am-item p { font-size: 0.83rem; color: var(--text-light); line-height: 1.6; }
+        @media (max-width: 700px) { .am-grid { grid-template-columns: 1fr; } }
+
+        /* ── RESTAURANT PAGE ── */
+        .restaurant-hero { background: var(--ocean); padding: 80px 5vw; }
+        .restaurant-hero-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .restaurant-hero .section-header h2 { color: var(--sand); }
+        .restaurant-hero .section-header p { color: rgba(232,220,200,0.75); }
+        .restaurant-hero-img { border-radius: 4px; overflow: hidden; }
+        .restaurant-hero-img img { width: 100%; height: 360px; object-fit: cover; display: block; }
+        @media (max-width: 780px) { .restaurant-hero-inner { grid-template-columns: 1fr; } }
+
+        .restaurant-features { padding: 80px 5vw; background: var(--sand-light); }
+        .restaurant-features-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+        .rf-card { background: var(--white); border-radius: 4px; padding: 36px 30px; border: 1px solid var(--border); }
+        .rf-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ocean); margin-bottom: 14px; }
+        .rf-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; }
+        @media (max-width: 600px) { .restaurant-features-inner { grid-template-columns: 1fr; } }
+
+        /* ── CONTACT PAGE ── */
+        .contact-page { background: var(--ocean); min-height: calc(100vh - 68px); padding: 80px 5vw; }
+        .contact-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+        .contact-left .section-header h2 { color: var(--sand); }
+        .contact-left .section-header p { color: rgba(232,220,200,0.75); }
+        .contact-detail {
+            display: flex; align-items: flex-start; gap: 18px;
+            margin-bottom: 32px;
+        }
+        .contact-icon {
+            width: 44px; height: 44px; min-width: 44px;
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+        .contact-icon svg { width: 18px; height: 18px; fill: var(--coral-light); }
+        .contact-detail-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral-light); margin-bottom: 6px; }
+        .contact-detail-val { color: var(--sand); font-size: 0.97rem; line-height: 1.6; }
+        .contact-detail-val a { color: var(--sand); text-decoration: none; border-bottom: 1px solid rgba(232,220,200,0.25); }
+        .contact-detail-val a:hover { border-color: var(--coral-light); color: var(--coral-light); }
+
+        .contact-right { background: var(--white); border-radius: 4px; padding: 40px; }
+        .contact-right h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; color: var(--ocean); margin-bottom: 8px; }
+        .contact-right p { font-size: 0.88rem; color: var(--text-light); margin-bottom: 28px; }
+        @media (max-width: 780px) { .contact-inner { grid-template-columns: 1fr; } }
+
+        /* Quick-message form (contact page, no action) */
+        .contact-form { display: flex; flex-direction: column; gap: 14px; }
+        .contact-form input, .contact-form textarea {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.9rem; color: var(--text);
+            background: var(--sand-light);
+            transition: border-color var(--transition);
+            outline: none;
+        }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--ocean); }
+        .contact-form textarea { min-height: 120px; resize: vertical; }
+        .contact-form .btn-primary { width: 100%; }
+
+        /* Map link */
+        .map-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 24px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 3px;
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: background var(--transition);
+            margin-top: 8px;
+        }
+        .map-link:hover { background: rgba(255,255,255,0.13); }
+        .map-link svg { width: 14px; height: 14px; fill: var(--coral-light); }
+
+        /* Location blurb */
+        .location-note {
+            margin-top: 32px;
+            padding: 22px 24px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            color: rgba(232,220,200,0.7);
+            font-size: 0.88rem; line-height: 1.7;
+        }
+
+        /* ── BOOKING PAGE ── */
+        .booking-page { background: var(--sand-light); min-height: calc(100vh - 68px); padding: 80px 5vw; }
+        .booking-inner { max-width: 680px; margin: 0 auto; }
+        .booking-inner .section-header h2 { color: var(--ocean); }
+        .booking-card { background: var(--white); border-radius: 4px; padding: 48px; border: 1px solid var(--border); box-shadow: 0 4px 32px rgba(26,58,74,0.07); }
+        .booking-note { font-size: 0.85rem; color: var(--text-light); margin-bottom: 32px; line-height: 1.7; padding: 16px; background: var(--sand-light); border-left: 3px solid var(--coral); border-radius: 0 3px 3px 0; }
+        .booking-form { display: flex; flex-direction: column; gap: 16px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ocean); font-weight: 500; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.9rem; color: var(--text);
+            background: var(--sand-light);
+            transition: border-color var(--transition);
+            outline: none;
+            appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: var(--ocean); background: var(--white); }
+        .form-group textarea { min-height: 110px; resize: vertical; }
+        .submit-btn {
+            background: var(--coral); color: var(--white);
+            padding: 15px; border: none; border-radius: 3px;
+            font-family: 'Jost', sans-serif; font-size: 0.82rem;
+            font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+            cursor: pointer; transition: background var(--transition), transform var(--transition);
+            margin-top: 8px;
+        }
+        .submit-btn:hover { background: var(--coral-light); transform: translateY(-2px); }
+        @media (max-width: 600px) { .booking-card { padding: 28px 20px; } .form-row { grid-template-columns: 1fr; } }
+
+        /* ── LIGHTBOX ── */
+        .lightbox {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(10,20,30,0.92); backdrop-filter: blur(6px);
+            align-items: center; justify-content: center;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 88vw; max-height: 84vh; border-radius: 4px; box-shadow: 0 20px 80px rgba(0,0,0,0.6); }
+        .lb-close {
+            position: absolute; top: 24px; right: 30px;
+            font-size: 36px; color: var(--sand); cursor: pointer;
+            line-height: 1; transition: color var(--transition);
+            background: none; border: none;
+        }
+        .lb-close:hover { color: var(--coral-light); }
+
+        /* ── BOOKING MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 5000;
+            background: rgba(10,20,30,0.6); backdrop-filter: blur(4px);
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--white);
+            border-radius: 6px;
+            padding: 44px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+        }
+        .modal-box h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem; font-weight: 400;
+            color: var(--ocean); margin-bottom: 6px;
+        }
+        .modal-box .modal-sub { font-size: 0.85rem; color: var(--text-light); margin-bottom: 26px; }
+        .modal-close {
+            position: absolute; top: 18px; right: 22px;
+            font-size: 26px; cursor: pointer; color: var(--text-light);
+            background: none; border: none; line-height: 1;
+            transition: color var(--transition);
+        }
+        .modal-close:hover { color: var(--ocean); }
+        .modal-note { font-size: 0.82rem; color: var(--text-light); margin-bottom: 24px; padding: 14px; background: var(--sand-light); border-left: 3px solid var(--coral); border-radius: 0 3px 3px 0; line-height: 1.7; }
+        @media (max-width: 560px) { .modal-box { padding: 28px 20px; } }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ocean);
+            color: rgba(232,220,200,0.65);
+            padding: 52px 5vw 80px;
+        }
+        .footer-inner {
+            max-width: 1180px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-brand .nav-logo { font-size: 1.2rem; display: block; margin-bottom: 14px; cursor: default; }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.75; }
+        footer h4 { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-light); margin-bottom: 18px; }
+        footer ul { list-style: none; }
+        footer ul li { margin-bottom: 10px; }
+        footer ul li a { color: rgba(232,220,200,0.65); text-decoration: none; font-size: 0.88rem; transition: color var(--transition); cursor: pointer; }
+        footer ul li a:hover { color: var(--sand); }
+        .footer-bottom {
+            max-width: 1180px; margin: 40px auto 0;
+            padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.78rem; text-align: center;
+        }
+        @media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr; gap: 30px; } }
+
+        /* Utility */
+        .mt-8 { margin-top: 8px; }
+        .mt-16 { margin-top: 16px; }
+        .mt-24 { margin-top: 24px; }
+        .text-center { text-align: center; }
+        .full-gallery { padding: 80px 5vw; background: var(--white); }
+        .full-gallery-inner { max-width: 1180px; margin: 0 auto; }
+        .full-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .full-gallery-grid .g-item { height: 200px; overflow: hidden; border-radius: 4px; cursor: pointer; position: relative; }
+        .full-gallery-grid .g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .full-gallery-grid .g-item:hover img { transform: scale(1.08); }
+        @media (max-width: 700px) { .full-gallery-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 400px) { .full-gallery-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+    <div class="nav-logo" onclick="showPage('home')">New Dalma <span>Hotel</span></div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a></li>
+        <li><a href="#" onclick="showPage('rooms')" data-page="rooms">Rooms</a></li>
+        <li><a href="#" onclick="showPage('amenities')" data-page="amenities">Amenities</a></li>
+        <li><a href="#" onclick="showPage('restaurant')" data-page="restaurant">Restaurant & Bar</a></li>
+        <li><a href="#" onclick="showPage('contact')" data-page="contact">Contact</a></li>
+
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+
+<!-- ══════════ HOME ══════════ -->
+<div class="page active" id="page-home">
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">Bububu · Zanzibar</div>
+            <h1>Your Tropical <em>Paradise</em><br>by the Sea</h1>
+            <p class="hero-sub">Just 200 metres from the ocean · 7 km from Stone Town</p>
+            <div class="hero-cta">
+                <button class="btn-primary" onclick="openModal()">Reserve a Room</button>
+                <button class="btn-outline" onclick="showPage('rooms')">Explore Rooms</button>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">25+</div>
+                <div class="hero-stat-label">Rooms</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">200m</div>
+                <div class="hero-stat-label">To Ocean</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">$30</div>
+                <div class="hero-stat-label">From / Night</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">24/7</div>
+                <div class="hero-stat-label">Front Desk</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome -->
+    <section class="welcome-strip">
+        <div class="welcome-inner">
+            <div class="welcome-text">
+                <div class="section-header">
+                    <div class="section-eyebrow">Welcome</div>
+                    <h2>Discover Serenity by the Sea</h2>
+                    <div class="divider"></div>
+                    <p>Nestled just 200 metres from the pristine ocean shores of Zanzibar, New Dalma Hotel offers a perfect blend of comfort, convenience, and natural beauty. Whether you're seeking a relaxing getaway, an adventurous escape, or a peaceful retreat, our hotel provides everything you need for an unforgettable stay.</p>
+                </div>
+                <p style="color:rgba(232,220,200,0.75); font-size:1rem; line-height:1.8; margin-top:0;">Only 7 km from the bustling town centre, enjoy the best of both worlds — tranquility and accessibility. Explore nearby spice tours, historic Stone Town, or simply unwind on the white sandy beaches.</p>
+            </div>
+            <div class="welcome-img">
+                <img src="IMG_20250712_190236.jpg" alt="New Dalma Hotel">
+                <div class="welcome-badge">
+                    <div class="big">7km</div>
+                    <div class="small">From Town</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights -->
+    <section class="highlights">
+        <div class="highlights-inner">
+            <div class="section-header text-center" style="margin-bottom:44px;">
+                <div class="section-eyebrow">Why Stay With Us</div>
+                <h2>A Home Away From Home</h2>
+            </div>
+            <div class="highlights-grid">
+                <div class="h-card">
+                    <div class="h-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <h3>Prime Location</h3>
+                    <p>Steps from the Indian Ocean in charming Bububu, with easy access to Stone Town's historic sights and local spice tours.</p>
+                </div>
+                <div class="h-card">
+                    <div class="h-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <h3>All-Day Comfort</h3>
+                    <p>24/7 front desk, daily housekeeping, free parking, and free Wi-Fi throughout the property — everything taken care of.</p>
+                </div>
+                <div class="h-card">
+                    <div class="h-icon">
+                        <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>
+                    </div>
+                    <h3>Great Value</h3>
+                    <p>Comfortable rooms from just 30 USD per night, including free breakfast — experience Zanzibar without compromise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery strip (home) -->
+    <section class="gallery-strip">
+        <div class="gallery-strip-inner">
+            <div class="section-header">
+                <div class="section-eyebrow">Gallery</div>
+                <h2>A Glimpse of Your Stay</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="g-item"><img src="hotel-exterior.jpg" alt="Hotel Exterior" onclick="openLightbox(this.src)"><div class="g-overlay"><span>View</span></div></div>
+                <div class="g-item"><img src="IMG_1701.jpg" alt="Swimming Pool" onclick="openLightbox(this.src)"><div class="g-overlay"><span>View</span></div></div>
+                <div class="g-item"><img src="Room 1.jpg" alt="Room Interior" onclick="openLightbox(this.src)"><div class="g-overlay"><span>View</span></div></div>
+                <div class="g-item"><img src="IMG_1366.jpg" alt="Restaurant" onclick="openLightbox(this.src)"><div class="g-overlay"><span>View</span></div></div>
+                <div class="g-item"><img src="IMG_1360.jpg" alt="Bar" onclick="openLightbox(this.src)"><div class="g-overlay"><span>View</span></div></div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- /home -->
+
+
+<!-- ══════════ ROOMS ══════════ -->
+<div class="page" id="page-rooms">
+
+    <section class="rooms-intro">
+        <div class="rooms-intro-inner">
+            <div class="section-header">
+                <div class="section-eyebrow">Accommodation</div>
+                <h2>Our Rooms</h2>
+                <div class="divider"></div>
+                <p>Choose from our selection of comfortable, well-appointed rooms — all with modern conveniences, free Wi-Fi, and daily housekeeping.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rooms-list">
+        <div style="max-width:1180px;margin:0 auto 0;">
+            <!-- Check-in bar -->
+            <div class="checkin-bar">
+                <div class="checkin-item">
+                    <div class="checkin-label">Check-In</div>
+                    <div class="checkin-value">10:00 AM</div>
+                </div>
+                <div class="checkin-divider"></div>
+                <div class="checkin-item">
+                    <div class="checkin-label">Check-Out</div>
+                    <div class="checkin-value">11:00 AM</div>
+                </div>
+                <div class="checkin-divider"></div>
+                <div class="checkin-item">
+                    <div class="checkin-label">Breakfast</div>
+                    <div class="checkin-value">Included</div>
+                </div>
+                <div class="checkin-divider"></div>
+                <div class="checkin-item">
+                    <div class="checkin-label">Parking</div>
+                    <div class="checkin-value">Free</div>
+                </div>
+            </div>
+        </div>
+        <div class="rooms-list-inner">
+            <!-- Standard -->
+            <div class="room-card">
+                <div class="room-img">
+                    <img src="Standard.jpg" alt="Standard Room">
+                </div>
+                <div class="room-body">
+                    <h3>Standard Room</h3>
+                    <p>Comfortable and well-furnished with modern amenities, free Wi-Fi, and daily housekeeping. Perfect for solo travellers or couples.</p>
+                    <div class="room-price">
+                        <span class="amount">$30</span>
+                        <span class="per">per night</span>
+                    </div>
+                    <button class="btn-room" onclick="openModalWithRoom('Standard (30 USD)')">Book This Room</button>
+                </div>
+            </div>
+            <!-- Deluxe -->
+            <div class="room-card">
+                <div class="room-img">
+                    <img src="Deluxe.jpg." alt="Deluxe Room">
+                </div>
+                <div class="room-body">
+                    <h3>Deluxe Room</h3>
+                    <p>Spacious and stylish with enhanced comfort. Ideal for guests who want a little extra space and a more elevated experience.</p>
+                    <div class="room-price">
+                        <span class="amount">$40</span>
+                        <span class="per">per night</span>
+                    </div>
+                    <button class="btn-room" onclick="openModalWithRoom('Deluxe (40 USD)')">Book This Room</button>
+                </div>
+            </div>
+            <!-- Suite -->
+            <div class="room-card">
+                <div class="room-img">
+                    <img src="Suite.jpg" alt="Suite">
+                </div>
+                <div class="room-body">
+                    <h3>Suite</h3>
+                    <p>Our best room, offering generous space and premium comfort. The perfect choice for a special occasion or extended stay.</p>
+                    <div class="room-price">
+                        <span class="amount">$50</span>
+                        <span class="per">per night</span>
+                    </div>
+                    <button class="btn-room" onclick="openModalWithRoom('Suite (50 USD)')">Book This Room</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room gallery -->
+        <div style="max-width:1180px;margin:40px auto 0;padding:0;">
+            <div class="section-eyebrow" style="margin-bottom:20px;">Room Gallery</div>
+            <div class="full-gallery-grid" style="grid-template-columns:repeat(4,1fr);">
+                <div class="g-item" style="height:180px;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;">
+                    <img src="Room 1.jpg" alt="Room" onclick="openLightbox(this.src)" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+                <div class="g-item" style="height:180px;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;">
+                    <img src="Deluxe.jpg" alt="Room" onclick="openLightbox(this.src)" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+                <div class="g-item" style="height:180px;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;">
+                    <img src="Suite.jpg" alt="Room" onclick="openLightbox(this.src)" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+                <div class="g-item" style="height:180px;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;">
+                    <img src="deluxe.jpg" alt="Room" onclick="openLightbox(this.src)" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div><!-- /rooms -->
+
+
+<!-- ══════════ AMENITIES ══════════ -->
+<div class="page" id="page-amenities">
+
+    <section class="amenities-hero" style="padding-bottom:80px;">
+        <div class="amenities-hero-inner">
+            <div class="section-header">
+                <div class="section-eyebrow">Facilities</div>
+                <h2>Our Amenities</h2>
+                <div class="divider" style="background:var(--coral);"></div>
+                <p>Everything you need for a comfortable, carefree stay — included as standard.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="amenities-grid-wrap">
+        <div class="amenities-grid-inner">
+            <div class="am-grid">
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Refreshing Outdoor Pool</h4>
+                        <p>Cool off and relax in our outdoor swimming pool, set in a pleasant garden setting.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Free Wi-Fi Throughout</h4>
+                        <p>Stay connected anywhere on the property with complimentary high-speed wireless internet.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Free Breakfast</h4>
+                        <p>Start every morning right with a complimentary breakfast included with your stay.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>On-Site Restaurant</h4>
+                        <p>Enjoy delicious local Zanzibari cuisine in our on-site restaurant — fresh, flavourful, and authentic.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Pub / Bar</h4>
+                        <p>Unwind in our cozy bar with cold drinks and a relaxed atmosphere, perfect for evening socialising.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Spacious Modern Rooms</h4>
+                        <p>All rooms are well-appointed with contemporary furnishings and modern comforts.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>24/7 Front Desk</h4>
+                        <p>Our friendly team is available around the clock to assist with any requests or questions.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Daily Housekeeping</h4>
+                        <p>Rooms are serviced daily, with laundry services also available on request.</p>
+                    </div>
+                </div>
+                <div class="am-item">
+                    <div class="am-dot"></div>
+                    <div>
+                        <h4>Free Parking</h4>
+                        <p>Complimentary on-site parking available for all guests throughout their stay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pool gallery -->
+            <div style="margin-top:60px;">
+                <div class="section-eyebrow" style="margin-bottom:20px;">Swimming Pool</div>
+                <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;height:320px;">
+                    <div style="overflow:hidden;border-radius:4px;cursor:pointer;" onclick="openLightbox('IMG_1701.jpg')">
+                        <img src="IMG_1701.jpg" alt="Pool" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="overflow:hidden;border-radius:4px;cursor:pointer;" onclick="openLightbox('IMG_1392.jpg')">
+                        <img src="IMG_1392.jpg" alt="Hotel" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</div><!-- /amenities -->
+
+
+<!-- ══════════ RESTAURANT ══════════ -->
+<div class="page" id="page-restaurant">
+
+    <section class="restaurant-hero">
+        <div class="restaurant-hero-inner">
+            <div>
+                <div class="section-header">
+                    <div class="section-eyebrow">Dining</div>
+                    <h2>Restaurant &amp; Bar</h2>
+                    <div class="divider" style="background:var(--coral);"></div>
+                    <p>Savour the authentic tastes of Zanzibar in our on-site restaurant, then wind down at our cozy pub and bar.</p>
+                </div>
+            </div>
+            <div class="restaurant-hero-img">
+                <img src="IMG_1654.jpg" alt="Restaurant">
+            </div>
+        </div>
+    </section>
+
+    <section class="restaurant-features">
+        <div class="restaurant-features-inner">
+            <div class="rf-card">
+                <h3>On-Site Restaurant</h3>
+                <p>Our restaurant serves freshly prepared local Zanzibari cuisine — vibrant spices, fresh seafood, and home-style cooking that celebrates the island's rich culinary heritage. Breakfast is included with every stay, served each morning to fuel your adventures.</p>
+            </div>
+            <div class="rf-card">
+                <h3>Pub &amp; Bar</h3>
+                <p>End your day at our cozy bar, the perfect spot for a cold drink, light refreshment, or a relaxed evening conversation. A welcoming, informal atmosphere that makes you feel right at home.</p>
+            </div>
+        </div>
+
+        <!-- Restaurant Gallery -->
+        <div style="max-width:1180px;margin:40px auto 0;">
+            <div class="section-eyebrow" style="margin-bottom:20px;">Dining Gallery</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                <div style="height:220px;overflow:hidden;border-radius:4px;cursor:pointer;position:relative;" class="g-item" onclick="openLightbox('IMG_1366.jpg')">
+                    <img src="IMG_1366.jpg" alt="Restaurant" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+                <div style="height:220px;overflow:hidden;border-radius:4px;cursor:pointer;position:relative;" class="g-item" onclick="openLightbox('IMG_1654.jpg')">
+                    <img src="IMG_1654.jpg" alt="Restaurant" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+                <div style="height:220px;overflow:hidden;border-radius:4px;cursor:pointer;position:relative;" class="g-item" onclick="openLightbox('IMG_1360.jpg')">
+                    <img src="IMG_1360.jpg" alt="Bar" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">
+                    <div class="g-overlay"><span>View</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- /restaurant -->
+
+
+<!-- ══════════ CONTACT ══════════ -->
+<div class="page" id="page-contact">
+
+    <section class="contact-page">
+        <div class="contact-inner">
+            <div class="contact-left">
+                <div class="section-header">
+                    <div class="section-eyebrow">Get In Touch</div>
+                    <h2>Contact Us</h2>
+                    <div class="divider"></div>
+                    <p>We're here to make your stay exceptional. Reach out with any questions or to arrange your visit.</p>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </div>
+                    <div>
+                        <div class="contact-detail-label">Phone</div>
+                        <div class="contact-detail-val">
+                            <a href="tel:+255712494918">+255-712-494-918</a><br>
+                            <a href="tel:+255777291919">+255-777-291-919</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <div>
+                        <div class="contact-detail-label">Email</div>
+                        <div class="contact-detail-val"><a href="/cdn-cgi/l/email-protection#9afefbf6f7fbfde8f5efeaf5fcf2f5eefff6e9dafdf7fbf3f6b4f9f5f7"><span class="__cf_email__" data-cfemail="5135303d3c3036233e24213e37393e25343d2211363c30383d7f323e3c">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                    </div>
+                    <div>
+                        <div class="contact-detail-label">Instagram</div>
+                        <div class="contact-detail-val"><a href="https://instagram.com/dalmalodge" target="_blank">@dalmalodge</a></div>
+                    </div>
+                </div>
+
+                <a href="https://maps.app.goo.gl/Eh9QVuiL6pCDU5MWA?g_st=aw" target="_blank" class="map-link">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    View Us on Google Maps
+                </a>
+
+                <div class="location-note">
+                    <strong style="color:var(--sand);">Bububu, Zanzibar</strong><br>
+                    Located in the charming Bububu area — just 200 metres from the beach and 7 km from Stone Town. Ideal for exploring spice tours, the historic Stone Town, and the island's stunning coastline.
+                </div>
+            </div>
+
+            <!-- Right: quick enquiry form (opens email on submit) -->
+            <div class="contact-right">
+                <h3>Send an Enquiry</h3>
+                <p>Fill in the form below and we'll get back to you as soon as possible.</p>
+                <form class="contact-form" onsubmit="sendContactEmail(event)">
+    <input type="text" id="cName" placeholder="Your Name" required>
+    <input type="email" id="cEmail" placeholder="Email Address" required>
+    <input type="tel" id="cPhone" placeholder="Mobile Number" required>
+    <input type="text" id="cSubject" placeholder="Subject">
+    <textarea id="cMessage" placeholder="Your message…" required></textarea>
+    <button type="submit" class="btn-primary" style="width:100%;padding:14px;font-size:0.8rem;letter-spacing:0.12em;">Send Message</button>
+</form>
+            </div>
+        </div>
+    </section>
+
+</div><!-- /contact -->
+
+
+<!-- ══════════ BOOKING PAGE ══════════ -->
+<div class="page" id="page-booking">
+    <section class="booking-page">
+        <div class="booking-inner">
+            <div class="section-header">
+                <div class="section-eyebrow">Reservations</div>
+                <h2>Book Your Stay</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="booking-card">
+                <div class="booking-note">
+                    Fill in your details below. Clicking <strong>Submit Booking Request</strong> will open your email client with a pre-filled message to our reservations team at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2a4e4b46474b4d58455f5a454c42455e4f46596a4d474b434604494547">[email&#160;protected]</a></strong>.
+                </div>
+                <form class="booking-form" id="bookingPageForm" onsubmit="submitBookingForm(event, 'bookingPageForm')">
+                    <div class="form-group">
+                        <label for="bp-name">Full Name</label>
+                        <input type="text" id="bp-name" required placeholder="Your name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bp-checkin">Check-In Date</label>
+                            <input type="date" id="bp-checkin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bp-checkout">Check-Out Date</label>
+                            <input type="date" id="bp-checkout" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bp-rooms">Number of Rooms</label>
+                            <input type="number" id="bp-rooms" min="1" required placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="bp-room">Room Type</label>
+                            <select id="bp-room">
+                                <option value="Standard (30 USD/night)">Standard — $30 / night</option>
+                                <option value="Deluxe (40 USD/night)">Deluxe — $40 / night</option>
+                                <option value="Suite (50 USD/night)">Suite — $50 / night</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bp-adults">Adults</label>
+                            <input type="number" id="bp-adults" min="1" required placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="bp-children">Children</label>
+                            <input type="number" id="bp-children" min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bp-phone">Phone Number</label>
+                        <input type="tel" id="bp-phone" required placeholder="+1 234 567 8900">
+                    </div>
+                    <div class="form-group">
+                        <label for="bp-message">Additional Message (optional)</label>
+                        <textarea id="bp-message" placeholder="Any special requests or questions…"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">📧 Send Booking via Email</button>
+                    <div style="display:flex;gap:10px;margin-top:10px;">
+                        <button type="button" class="submit-btn whatsapp-btn" style="flex:1;background:#25D366;" onclick="openWhatsApp('bookingPageForm', '255712494918')">💬 WhatsApp · +255-712-494-918</button>
+                        <button type="button" class="submit-btn whatsapp-btn" style="flex:1;background:#25D366;" onclick="openWhatsApp('bookingPageForm', '255777291919')">💬 WhatsApp · +255-777-291-919</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div><!-- /booking -->
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="nav-logo">New Dalma <span>Hotel</span></div>
+            <p>Your tropical paradise in Bububu, Zanzibar. Just 200 metres from the ocean and 7 km from Stone Town.</p>
+        </div>
+        <div>
+            <h4>Navigate</h4>
+            <ul>
+                <li><a onclick="showPage('home')">Home</a></li>
+                <li><a onclick="showPage('rooms')">Rooms & Rates</a></li>
+                <li><a onclick="showPage('amenities')">Amenities</a></li>
+                <li><a onclick="showPage('restaurant')">Restaurant & Bar</a></li>
+                <li><a onclick="showPage('contact')">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="tel:+255712494918">+255-712-494-918</a></li>
+                <li><a href="tel:+255777291919">+255-777-291-919</a></li>
+                <li><a href="/cdn-cgi/l/email-protection#7f1b1e13121e180d100a0f101917100b1a130c3f18121e1613511c1012"><span class="__cf_email__" data-cfemail="e286838e8f8385908d97928d848a8d96878e91a2858f838b8ecc818d8f">[email&#160;protected]</span></a></li>
+                <li><a href="https://instagram.com/dalmalodge" target="_blank">@dalmalodge</a></li>
+                <li><a href="https://maps.app.goo.gl/Eh9QVuiL6pCDU5MWA?g_st=aw" target="_blank">Google Maps</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">&copy; 2025 New Dalma Hotel. All rights reserved. · Bububu, Zanzibar</div>
+</footer>
+
+
+<!-- ══════════ LIGHTBOX ══════════ -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <button class="lb-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="Gallery Image">
+</div>
+
+
+<!-- ══════════ BOOKING MODAL ══════════ -->
+<div id="bookingModal" class="modal-overlay" onclick="modalOverlayClick(event)">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <h2>Book Your Stay</h2>
+        <p class="modal-sub">New Dalma Hotel · Bububu, Zanzibar</p>
+        <div class="modal-note">Submitting this form will open your email client with a pre-filled booking request to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2c484d40414d4b5e43595c434a44435849405f6c4b414d4540024f4341">[email&#160;protected]</a></strong>.</div>
+        <form class="booking-form" id="modalBookingForm" onsubmit="submitBookingForm(event, 'modalBookingForm')">
+            <div class="form-group">
+                <label for="m-name">Full Name</label>
+                <input type="text" id="m-name" required placeholder="Your name">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-checkin">Check-In Date</label>
+                    <input type="date" id="m-checkin" required>
+                </div>
+                <div class="form-group">
+                    <label for="m-checkout">Check-Out Date</label>
+                    <input type="date" id="m-checkout" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-rooms">Number of Rooms</label>
+                    <input type="number" id="m-rooms" min="1" required placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="m-room">Room Type</label>
+                    <select id="m-room">
+                        <option value="Standard (30 USD/night)">Standard — $30 / night</option>
+                        <option value="Deluxe (40 USD/night)">Deluxe — $40 / night</option>
+                        <option value="Suite (50 USD/night)">Suite — $50 / night</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-adults">Adults</label>
+                    <input type="number" id="m-adults" min="1" required placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="m-children">Children</label>
+                    <input type="number" id="m-children" min="0" placeholder="0">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="m-phone">Phone Number</label>
+                <input type="tel" id="m-phone" required placeholder="+1 234 567 8900">
+            </div>
+            <div class="form-group">
+                <label for="m-message">Additional Message</label>
+                <textarea id="m-message" placeholder="Any special requests or questions…"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">📧 Send Booking via Email</button>
+            <div style="display:flex;gap:10px;margin-top:10px;">
+                <button type="button" class="submit-btn whatsapp-btn" style="flex:1;background:#25D366;" onclick="openWhatsApp('modalBookingForm', '255712494918')">💬 WhatsApp · +255-712-494-918</button>
+                <button type="button" class="submit-btn whatsapp-btn" style="flex:1;background:#25D366;" onclick="openWhatsApp('modalBookingForm', '255777291919')">💬 WhatsApp · +255-777-291-919</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Page navigation ──
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === id);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // close mobile nav
+    document.getElementById('navLinks').classList.remove('open');
+}
+
+// ── Mobile nav ──
+function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ── Lightbox ──
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ── Booking Modal ──
+function openModal() {
+    document.getElementById('bookingModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+    document.getElementById('bookingModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+function modalOverlayClick(e) {
+    if (e.target === document.getElementById('bookingModal')) closeModal();
+}
+
+function openModalWithRoom(roomVal) {
+    openModal();
+    document.getElementById('m-room').value = roomVal;
+}
+
+// ── Booking form submit → mailto ──
+function getFormData(formId) {
+    const p = formId === 'modalBookingForm' ? 'm' : 'bp';
+    return {
+        name:     document.getElementById(p+'-name').value,
+        checkin:  document.getElementById(p+'-checkin').value,
+        checkout: document.getElementById(p+'-checkout').value,
+        rooms:    document.getElementById(p+'-rooms').value,
+        adults:   document.getElementById(p+'-adults').value,
+        children: (document.getElementById(p+'-children').value || '0'),
+        room:     document.getElementById(p+'-room').value,
+        phone:    document.getElementById(p+'-phone').value,
+        message:  document.getElementById(p+'-message').value,
+    };
+}
+
+function buildBookingBody(d, nights, total) {
+    return `Booking Request – New Dalma Hotel
+
+Room Selected:  ${d.room}
+Check-In:       ${d.checkin}
+Check-Out:      ${d.checkout}
+Nights:         ${nights}
+Rooms:          ${d.rooms}
+Adults:         ${d.adults}
+Children:       ${d.children}
+Phone:          ${d.phone}${total}
+
+Additional Message:
+${d.message || 'None'}
+
+---
+Sent via New Dalma Hotel website`;
+}
+
+function submitBookingForm(e, formId) {
+    e.preventDefault();
+    const d = getFormData(formId);
+
+    let nights = 0, pricePerNight = 0, total = '';
+    if (d.checkin && d.checkout) {
+        const ci = new Date(d.checkin), co = new Date(d.checkout);
+        nights = Math.max(0, Math.round((co - ci) / 86400000));
+    }
+    if (d.room.includes('30')) pricePerNight = 30;
+    else if (d.room.includes('40')) pricePerNight = 40;
+    else if (d.room.includes('50')) pricePerNight = 50;
+    if (nights > 0 && pricePerNight > 0) total = `\nEstimated Total: ${nights} night(s) × $${pricePerNight} × ${d.rooms} room(s) = $${nights * pricePerNight * parseInt(d.rooms)} USD`;
+
+    const body = buildBookingBody(d, nights, total);
+    const mailto = `mailto:dalmagroupofhotels@gmail.com?subject=Booking Request – ${encodeURIComponent(d.name)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+}
+
+// ── WhatsApp booking ──
+function openWhatsApp(formId, number) {
+    const d = getFormData(formId);
+    let nights = 0, pricePerNight = 0, total = '';
+    if (d.checkin && d.checkout) {
+        const ci = new Date(d.checkin), co = new Date(d.checkout);
+        nights = Math.max(0, Math.round((co - ci) / 86400000));
+    }
+    if (d.room.includes('30')) pricePerNight = 30;
+    else if (d.room.includes('40')) pricePerNight = 40;
+    else if (d.room.includes('50')) pricePerNight = 50;
+    if (nights > 0 && pricePerNight > 0) total = `\nEstimated Total: ${nights} night(s) × $${pricePerNight} × ${d.rooms} room(s) = $${nights * pricePerNight * parseInt(d.rooms)} USD`;
+
+    const msg = buildBookingBody(d, nights, total);
+    const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+}
+
+// ── Contact form submit → mailto ──
+function sendContactEmail(e) {
+    e.preventDefault();
+    
+    // Grabbing the values from the form
+    const name    = document.getElementById('cName').value;
+    const phone   = document.getElementById('cPhone').value;
+    const subject = document.getElementById('cSubject').value || 'Enquiry from website';
+    const msg     = document.getElementById('cMessage').value;
+
+    // This puts the message first, and the Name + Phone at the bottom
+    const body = `${msg}\n\n${name}\n${phone}`;
+
+    window.location.href = `mailto:dalmagroupofhotels@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+</script>
+</body>
+</html>
