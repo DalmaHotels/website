@@ -27,11 +27,71 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      entry.target.querySelectorAll(':scope > .section-header .type-target, :scope .hero-copy .type-target').forEach((el, index) => {
+        window.setTimeout(() => typeText(el), index * 120);
+      });
       observer.unobserve(entry.target);
     }
   });
 }, { threshold: .12 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+
+const HEADING_TYPE_SPEED = 90; // increase for slower, decrease for faster
+const HEADING_TYPE_START_DELAY = 180; // delay before typing starts
+
+function prepareTypeTargets() {
+  const selectors = [
+    '.page-hero .section-header h1',
+    '.hero-copy h1'
+  ];
+
+  const seen = new Set();
+  document.querySelectorAll(selectors.join(',')).forEach(el => {
+    if (seen.has(el) || el.children.length > 0) return;
+    const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!text || text.length > 220) return;
+    seen.add(el);
+    el.dataset.text = text;
+    el.classList.add('type-target');
+  });
+}
+
+function typeText(el) {
+  if (!el || el.dataset.typed === 'true') return;
+  const fullText = el.dataset.text || el.textContent || '';
+  el.dataset.typed = 'true';
+  el.textContent = '';
+  el.classList.add('typing');
+
+  const speed = Number(el.dataset.typeSpeed || HEADING_TYPE_SPEED);
+  let i = 0;
+
+  function tick() {
+    i += 1;
+    el.textContent = fullText.slice(0, i);
+    if (i < fullText.length) {
+      const char = fullText[i - 1];
+      const pause = /[,.!?]/.test(char) ? speed * 2.2 : /\s/.test(char) ? speed * 1.35 : speed;
+      window.setTimeout(tick, pause);
+    } else {
+      el.classList.remove('typing');
+      el.classList.add('typed');
+    }
+  }
+
+  window.setTimeout(tick, HEADING_TYPE_START_DELAY);
+}
+
+prepareTypeTargets();
+
+document.querySelectorAll('.type-target').forEach(el => {
+  const revealParent = el.closest('.reveal');
+  if (!revealParent || revealParent.classList.contains('visible')) {
+    typeText(el);
+  }
+});
 
 const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
@@ -372,4 +432,68 @@ document.addEventListener('keydown', (event) => {
     closeBookingDialog();
     closePolicy();
   }
+});
+
+
+function applyTextStagger() {
+  const selectors = [
+    '.hero-copy',
+    '.hero-stats',
+    '.page-hero .section-header',
+    '.section-header',
+    '.feature-card',
+    '.room-card',
+    '.amenity-card',
+    '.info-card',
+    '.contact-form-card',
+    '.checkin-bar',
+    '.image-card',
+    '.gallery-item',
+    '.room-gallery-item',
+    '.dining-gallery-item',
+    '.stat-card',
+    '.floating-badge',
+    '.location-note'
+  ];
+
+  const itemSelector = 'h1, h2, h3, p, .eyebrow, .divider, .lead, .hero-actions, .hero-dots, .btn, .btn-secondary, .btn-ghost, strong, span, li, .room-price, .status-note, form, .info-row';
+
+  document.querySelectorAll(selectors.join(',')).forEach(container => {
+    const children = [...container.querySelectorAll(':scope > ' + itemSelector)].filter(el => !el.classList.contains('text-animated'));
+    children.forEach((el, index) => {
+      el.classList.add('text-animated');
+      el.style.setProperty('--stagger-delay', `${index * 90}ms`);
+    });
+  });
+}
+
+function initPageTransitions() {
+  document.body.classList.add('page-ready');
+
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const target = link.getAttribute('target');
+    const download = link.hasAttribute('download');
+    const isAnchor = href.startsWith('#');
+    const isExternal = /^https?:/i.test(href) || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('whatsapp:');
+
+    if (!href || target === '_blank' || download || isAnchor || isExternal) return;
+
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      document.body.classList.add('is-leaving');
+      window.setTimeout(() => {
+        window.location.href = href;
+      }, 320);
+    });
+  });
+}
+
+applyTextStagger();
+initPageTransitions();
+
+window.addEventListener('pageshow', () => {
+  document.body.classList.remove('is-leaving');
+  document.body.classList.add('page-ready');
 });

@@ -1056,3 +1056,190 @@
     .page-hero .container { position: relative; z-index: 1; }
     .page-hero p { color: rgba(232, 220, 200, .8); max-width: 60ch; }
     .page-hero .hero-actions { margin-top: 1.5rem; }
+
+
+    body {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 420ms ease, transform 420ms ease;
+    }
+    body.page-ready {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(26,58,74,.16), rgba(26,58,74,.05));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 320ms ease;
+      z-index: 3000;
+    }
+    body.is-leaving::before {
+      opacity: 1;
+    }
+    body.is-leaving {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .text-animated {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: textLift 700ms cubic-bezier(.2,.8,.2,1) forwards;
+      animation-delay: var(--stagger-delay, 0ms);
+      will-change: transform, opacity;
+    }
+
+    .hero-copy .text-animated,
+    .hero-stats .text-animated,
+    .page-hero .text-animated {
+      animation-duration: 820ms;
+    }
+
+    @keyframes textLift {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-card,
+    .room-card,
+    .amenity-card,
+    .info-card,
+    .contact-form-card,
+    .image-card,
+    .gallery-item,
+    .room-gallery-item,
+    .dining-gallery-item,
+    .stat-card,
+    .checkin-item,
+    .hero-actions .btn,
+    .hero-actions .btn-secondary,
+    .nav-list a,
+    .social-link {
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
+    }
+
+    .feature-card:hover,
+    .room-card:hover,
+    .amenity-card:hover,
+    .info-card:hover,
+    .contact-form-card:hover,
+    .gallery-item:hover,
+    .room-gallery-item:hover,
+    .dining-gallery-item:hover,
+    .checkin-item:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-copy h1,
+    .page-hero h1,
+    .section-header h2,
+    .section-header h3 {
+      text-wrap: balance;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      body,
+      body::before,
+      .text-animated,
+      .hero-slide,
+      .image-card img,
+      .feature-card,
+      .room-card,
+      .amenity-card,
+      .info-card,
+      .contact-form-card,
+      .gallery-item,
+      .room-gallery-item,
+      .dining-gallery-item,
+      .checkin-item,
+      .hero-actions .btn,
+      .hero-actions .btn-secondary,
+      .nav-list a,
+      .social-link {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
+
+
+    .type-target {
+      will-change: contents, opacity, transform;
+    }
+    .type-target.typing,
+    .type-target.typed {
+      opacity: 1;
+      transform: none;
+    }
+    .type-target.typing::after {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 1em;
+      margin-left: .08em;
+      vertical-align: -0.1em;
+      background: currentColor;
+      animation: blinkCursor .8s steps(1, end) infinite;
+    }
+    @keyframes blinkCursor {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .nav-list a {
+      position: relative;
+      transition: transform var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition);
+    }
+    .nav-list a::after {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: .65rem;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(223, 160, 128, .95), transparent);
+      transform: scaleX(.35);
+      opacity: 0;
+      transform-origin: center;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .nav-list a:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: rgba(232, 220, 200, .12);
+      color: var(--sand);
+      box-shadow: 0 14px 24px rgba(0, 0, 0, .12);
+    }
+    .nav-list a:hover::after,
+    .nav-list a.active::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .nav-list a.active {
+      background: rgba(232, 220, 200, .1);
+      color: var(--sand);
+      box-shadow: inset 0 0 0 1px rgba(223, 160, 128, .18);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .type-target.typing::after {
+        animation: none;
+      }
+      .nav-list a,
+      .nav-list a::after {
+        transition: none;
+      }
+    }
