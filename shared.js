@@ -158,10 +158,41 @@ const lightboxImg = document.getElementById('lightboxImg');
 const lightboxClose = document.getElementById('lightboxClose');
 const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
 
-function openLightbox(src, alt) {
+function normalizeImageSrc(src = '') {
+  return String(src).trim().replace(/\s/g, '%20');
+}
+
+function getLightboxSource(trigger) {
+  if (!trigger) return { src: '', alt: 'Gallery Image' };
+
+  const image = trigger.matches('img') ? trigger : trigger.querySelector('img');
+  const rawSrc = trigger.dataset?.src || image?.dataset?.src || image?.currentSrc || image?.src || '';
+  const alt = trigger.dataset?.alt || image?.alt || 'Gallery Image';
+
+  return {
+    src: normalizeImageSrc(rawSrc),
+    fallbackSrc: normalizeImageSrc(image?.currentSrc || image?.src || ''),
+    alt
+  };
+}
+
+function openLightbox(src, alt, fallbackSrc = '') {
   if (!lightbox || !lightboxImg) return;
-  lightboxImg.src = src;
+
+  const primarySrc = normalizeImageSrc(src);
+  const backupSrc = normalizeImageSrc(fallbackSrc);
+
+  if (!primarySrc && !backupSrc) return;
+
   lightboxImg.alt = alt || 'Gallery Image';
+  lightboxImg.onerror = () => {
+    if (backupSrc && lightboxImg.src !== backupSrc) {
+      lightboxImg.src = backupSrc;
+      return;
+    }
+    closeLightbox();
+  };
+  lightboxImg.src = primarySrc || backupSrc;
   lightbox.classList.add('open');
   lightbox.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -170,15 +201,30 @@ function closeLightbox() {
   if (!lightbox || !lightboxImg) return;
   lightbox.classList.remove('open');
   lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImg.onerror = null;
   lightboxImg.src = '';
   document.body.style.overflow = '';
 }
 lightboxTriggers.forEach(trigger => {
-  trigger.addEventListener('click', () => openLightbox(trigger.dataset.src, trigger.dataset.alt));
+  trigger.addEventListener('click', () => {
+    const { src, fallbackSrc, alt } = getLightboxSource(trigger);
+    openLightbox(src, alt, fallbackSrc);
+  });
 });
+
+document.querySelectorAll('.room-media img, .image-card img').forEach(img => {
+  img.addEventListener('click', () => {
+    const { src, fallbackSrc, alt } = getLightboxSource(img);
+    openLightbox(src, alt, fallbackSrc);
+  });
+});
+
 lightboxClose?.addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', (event) => {
   if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox();
 });
 
 const bookingDialog = document.getElementById('bookingDialog');
